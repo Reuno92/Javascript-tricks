@@ -1,5 +1,14 @@
 #Javascript Tricks
 
+##Summary
+
+### For Beginner
+ * [36 Javascript Method you should know](#36-javascript-method-you-should-know)
+### For Initiate
+ * [5 Tips to Write Better Conditionals in JavaScript](#5-tips-to-write-better-conditionals-in-javascript)
+### Features
+ * [EcmaScript 2021](#Javascript-2021-New-Features)
+
 ## For beginner
 
 **From**: [36 Javascript Method you should know](https://javascript.plainenglish.io/36-javascript-methods-you-should-know-e163edaa8ea5)
@@ -284,6 +293,8 @@ const getURL = async URL => await fetch(URL);
 
 ## For initiate
 
+### 5 Tips to Write Better Conditionals in JavaScript
+
 **From**: [5 Tips to Write Better Conditionals in JavaScript](https://scotch.io/tutorials/5-tips-to-write-better-conditionals-in-javascript#toc-5-use-array-every-array-some-for-all-partial-criteria)
 
 **Author**: *Jecelyn Yeen, Developer advocate for Google Chrome.*
@@ -415,7 +426,7 @@ Therefore, always aims for Less Nesting and Return Early but don't overdo it. Th
 * [Avoid Else](https://blog.timoxley.com/post/47041269194/avoid-else-return-early), Return Early by Tim Oxley
 * [StackOverflow discussion](https://softwareengineering.stackexchange.com/questions/18454/should-i-return-from-a-function-early-or-use-an-if-statement) on if/else coding style
 
-### 3. Use Default Function Parameters and Destructuring
+#### 3. Use Default Function Parameters and Destructuring
 
 I guess the code below might look familiar to you, we always need to check for `null` / `undefined` value and assign default value when working with JavaScript:
 
@@ -506,7 +517,7 @@ test({ name: 'apple', color: 'red' }); // apple
 
 You may run the demo code [here](http://jsbin.com/bopovajiye/edit?js,console). Besides, if you are a fan of Functional Programming (FP), you may opt to use [Lodash fp](https://github.com/lodash/lodash/wiki/FP-Guide), the functional version of Lodash (method changed to `get` or `getOr`).
 
-### 4. Favor Map / Object Literal than Switch Statement
+#### 4. Favor Map / Object Literal than Switch Statement
 
 Let's look at the example below, we want to print fruits based on color:
 
@@ -550,7 +561,7 @@ Should we ban the usage of switch statement? Do not limit yourself to that. Pers
 
 Todd Motto has an article that dig deeper on switch statement vs object literal, you may read [here](https://ultimatecourses.com/blog/deprecating-the-switch-statement-for-object-literals).
 
-## TL;DR; Refactor the syntax
+##### TL;DR; Refactor the syntax
 
 For the example above, we can actually refactor our code to achieve the same result with `Array.filter`.
 
@@ -573,7 +584,7 @@ function test(color) {
 
 There's always more than 1 way to achieve the same result. We have shown 4 with the same example. Coding is fun!
 
-### 5. Use Array.every & Array.some for All / Partial Criteria
+#### 5. Use Array.every & Array.some for All / Partial Criteria
 
 This last tip is more about utilizing new (but not so new) Javascript Array function to reduce the lines of code. Look at the code below, we want to check if all fruits are in red color:
 
@@ -630,3 +641,199 @@ function test() {
   console.log(isAnyRed); // true
 }
 ```
+
+## New Features
+
+### Javascript 2021 New Features
+
+**FROM**: [JavaScript 2021: New Features](https://javascript.plainenglish.io/how-to-use-node-js-with-google-sheets-c256c26e10fc)
+
+**Author**: *Tirlochan Arora*
+
+**Rewrited**: Renaud Racinet
+
+
+#### 1 - New Logical Operators
+
+JavaScript has added three new logical operators to the existing collection. These three operators are, `&&=`, `||=`, & `??=` . Let’s discuss these operators in detail:
+
+##### &&= operator:
+Before diving into the explanation, take a look at the example code given below:
+
+```Javascript
+let a = 1;
+let b= 2;
+a &&= b;
+
+console.log(a); // output for variable 'a' would be 2.
+```
+
+The line a&&= b is similar to the code block given below:
+
+```Javascript
+if (a) {
+    a = b;
+}
+```
+
+This logical operator is saying that if the variable `a` has a truthy value (which it is since it holds a non-zero value), then variable `a` should be assigned the value of the variable `b`. That’s why when we do `console.log(a) , the value of the variable a evaluates to 2 instead of 1.
+
+###### ||= operator:
+
+Consider the following code block given below:
+
+```Javascript
+let a = 1;
+let b = 2;
+a ||= b;
+console.log(b); // output for variable 'a' would be 1.
+```
+
+This operator is the opposite of the `&&=` operator. In this, the variable `a` will be equal to the variable `b` only and only if the variable `a` has a falsy value. The code block above is equivalent to the code given below:
+
+```Javascript
+if (!a) {
+  a = b;
+}
+```
+
+##### ??= operator:
+
+This operator checks whether a value is *null* or is *undefined*. Consider the following example:
+
+```Javascript
+let a;
+let b = 2;
+a ??= 1;
+console.log(a) // output for variable 'a' would be 1.
+
+// this code block is similar to the code given above.
+// if(a === null || a === undefined) {
+//   a = 1
+// }
+```
+
+In the example given, the value for the variable ‘a’ evaluates to *undefined* so, the `if` condition evaluates to `true` and ‘a’ is assigned the value of 1.
+
+#### String ‘replaceAll’ method
+
+We all have used the string replace method to `replace a character or words in a string with the element we specified. But it came with one limitation, this method only replaced the first occurrence of the character or word that we wanted to replace and the rest of the occurrences in the string remained the same. To replace all the characters or words, we have to use regular expressions.
+
+Example:
+
+```Javascript
+// without regex
+let str = 'JS is everywhere. JS is amazing!';
+console.log(str.replace('JS', 'JavaScript')); // the output would be 'JavaScript is everywhere. JS is amazing!'
+
+// with regex
+let str = 'JS is everywhere. JS is amazing!';
+console.log(str.replace(/JS/g, 'JavaScript')); // the output would be 'JavaScript is everywhere. JavaScript is amazing!'.
+```
+
+With the replaceAll method, the need for regular expression is eliminated. Consider the code below:
+
+```Javascript
+let str = 'JS is everywhere. JS is amazing!';
+console.log(str.replaceAll('JS', 'JavaScript')); // the output would be 'JavaScript is everywhere. JavaScript is amazing!'.
+```
+
+The method `replaceAll` replaces all the occurrences of the character or the word specified, with the element we specified.
+
+#### Using underscores as a separator for integers
+
+Integers are one of the data types among strings, arrays, etc. Sometimes integers become so large that it becomes almost difficult to count the number of elements present or to figure out that the number is a million or a billion.
+
+With the introduction of this feature, we can improve the readability of our integers. We can use underscores to separate the digits, without converting the data type to string. Example:
+
+```Javascript
+let number = 1_000_000_000; // one billion
+console.log(number) // 1000000000 (the number would remain an integer)
+```
+
+#### ‘Promise.any()’
+
+If you don’t know what promises JavaScript is, then you should first read [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+`Promise.any()` is a new feature that takes several iterable promises and returns the promise that is fulfilled first. An example will make that clear for you:
+
+```Javascript
+const p1 = new Promise(resolve => setTimeout(resolve, 500, 'First'));
+const p2 = new Promise(resolve => setTimeout(resolve, 800, 'Second'));
+const p3 = Promsie.reject(1);
+const promises = [p1, p2, p3];
+Promise.any(promises)
+    .then(result => {
+        console.log(result);
+    }) // the result would be 'First' because that's the promise, that is fulfilled first.
+    .catch(e => {
+        console.log(e);
+    })
+```
+
+In case none of the promises gets fulfilled, then we will get an `AggregateError`. To handle the `AggregateError`, we will define a `catch` statement after the `then` statement. If you don’t know what `then` & `catch` blocks are, you can read about them [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
+
+#### WeakRef and Finalizers
+
+`WeakRef` are short for ‘Weak References. `WeakRef` allows holding a weak reference to an object. The weak reference that is being held is called a ‘target’. A weak reference does not prevent the object from being reclaimed by the garbage collector.
+
+Garbage collection is a method of collecting the variables that are no longer needed, therefore freeing up the computer’s memory. To learn more about garbage collection, click the link [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management).
+
+*Note*: `WeakRef should only be used in specific situations and should be avoided whenever possible.
+
+Let’s understand the following by an example:
+
+```Javascript
+const weakRefFunc = () => {
+    const obj = new WeakRef({
+       name: 'JavaScript'
+    });
+    console.log(obj.deref().name);
+}
+const test = () => {
+    new Promise(resolve => {
+     setTimeout(() => {
+       weakRefFunc();
+        resolve();
+      }, 3000)
+    })
+    new Promise(resolve => {
+     setTimeout(() => {
+       weakRefFunc();
+        resolve();
+      }, 5000)
+    })
+}
+test();
+```
+
+The `deref` method returns the target that is being held, if the target is garbage collected, then *undefined* is returned.
+
+In this example, the variable `obj` is the weak reference that is being held.
+
+The first time when the `weakrefFunc` is called inside the `test` function, it’s guaranteed that ‘JavaScript’ would be printed, but for the second time when it’s called, there is no guarantee that ‘JavaScript’would be printed since the variable `obj` could be garbage-collected due to it being held as a weak reference.
+
+#### Finalizers
+
+A Finalizer is mostly used with `WeakRef` but it can also be used individually. A finalizer tells when an object is garbage collected. Let’s understand this through an example:
+
+→ First, we are going to create a finalizer using the `FinalizationRegistry` method.
+
+```Javascript
+const registerFinalizer = new FinalizationRegistry(data => console.log(data));
+
+const obj = {'name': 'JavaScript'};
+registerFinalizer.register(obj, 'obj is collected now!')
+```
+
+Now, the variable `registerFinalizer` is an object which contains the register method which we are going to use.
+
+`registerFinalizer.register` takes 2 arguments. First, the object that is to be watched for garbage collection, and second is the message that we want to display to the console when the object is garbage collected.
+
+Now, when the variable `obj` will be collected by garbage collectors, a message saying ‘obj is collected now!’ will be printed out to the console.
+
+#### Conclusion
+
+JavaScript overall is an amazing language to learn, one of the main reasons is that it’s present everywhere. I find these new features discussed above pretty useful. JavaScript 2021 features are pretty amazing and I expect the same to happen next year.
+
+Hope you have learned something new. If you enjoyed this post, recently I wrote a post on how to use Node.js with Google sheets. You can see that [post](https://javascript.plainenglish.io/how-to-use-node-js-with-google-sheets-c256c26e10fc) here. Thank you all for taking out the time to read this.
