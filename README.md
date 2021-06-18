@@ -6,6 +6,8 @@
  * [36 Javascript Method you should know](#36-javascript-method-you-should-know)
 ### For Initiate
  * [5 Tips to Write Better Conditionals in JavaScript](#5-tips-to-write-better-conditionals-in-javascript)
+### For advanced
+ * [10 Modern JavaScript Tricks Every Developer Should Use](#10-modern-javascript-tricks-every-developer-should-use)
 ### Features
  * [EcmaScript 2021](#Javascript-2021-New-Features)
 
@@ -642,6 +644,244 @@ function test() {
 }
 ```
 
+## For advanced
+
+### 10 Modern JavaScript Tricks Every Developer Should Use
+
+**FROM**: [10 Modern JavaScript Tricks Every Developer Should Use](https://betterprogramming.pub/10-modern-javascript-tricks-every-developer-should-use-377857311d79)
+
+**Author**: *Haseeb Anwar*
+
+**Rewritted**: *Renaud Racinet*
+
+#### 1 - Conditionally Add Properties to Object
+
+We can use the spread operator, ..., to quickly add properties to a JavaScript object conditionally.
+
+```Javascript
+const condition = true;
+
+const person = {
+    id: 1,
+    name: 'John Doe',
+    ...(condition && { age: 16 }),
+};
+```
+
+The `&&` operator returns the last evaluated expression if every operand evaluates to `true`. So an object `{ age: 16 }` is returned, which is then spread to be part of the `person` object.
+
+If `condition` is `false` then JavaScript will do something like this:
+
+```Javascript
+const person = {
+    id: 1,
+    name: 'John Doe',
+    ...(false), // evaluates to false
+};
+
+// spreading false has no effect on the object
+console.log(person); // { id: 1, name: 'John Doe' }
+```
+
+#### 2 - Check if a Property Exists in an Object
+Do you know that we can use the `in` keyword to check whether a property exists in a JavaScript Object?
+
+```Javascript
+const person = { name: 'John Doe', salary: 1000 };
+
+console.log(salary in person); // returns true
+console.log(age in person); // returns false
+```
+
+#### 3 - Dynamic Property Names in Objects
+Setting an object property with a dynamic key is simple. Just use the `['key_name']` notation to add the properties:
+
+```Javascript
+const dynamic = 'flavour';
+
+var item = {
+    name: 'Biscuit',
+    [dynamic]: 'Chocolate'
+}
+
+console.log(item); // { name: 'Biscuit', flavour: 'Chocolate' }
+```
+
+The same trick can also be used to reference object properties with a dynamic key:
+
+```Javascript
+const keyName = 'name';
+
+console.log(item[keyName]); // returns 'Biscuit'
+```
+
+#### 4 - Object Destructuring With a Dynamic Key
+
+So you know that you can destructure a variable and rename it right away with `:` notation. But do you know that you can also destructure properties of an object when you don’t know the key name or key name is dynamic?
+
+First, let’s see how you can rename variables while destructuring (destructuring with aliases).
+
+```Javascript
+const person = { id: 1, name: 'John Doe' };
+
+const { name: personName } = person;
+
+console.log(personName); // returns 'John Doe'
+```
+
+Now, let's destructure properties with a dynamic key:
+
+```Javascript
+const templates = {
+    'hello': 'Hello there',
+    'bye': 'Good bye'
+};
+
+const templateName = 'bye';
+
+const { [templateName]: template } = templates;
+
+console.log(template) // returns 'Good bye'
+```
+
+#### 5 - Nullish Coalescing, `??` Operator
+The `??` operator is useful when you want to check whether a variable is `null` or `undefined`. It returns the right-hand side operand when its left-hand side operand is `null` or `undefined`, and otherwise returns its left-hand side operand.
+
+```Javascript
+const foo = null ?? 'Hello';
+console.log(foo); // returns 'Hello'
+
+const bar = 'Not null' ?? 'Hello';
+console.log(bar); // returns 'Not null'
+
+const baz = 0 ?? 'Hello';
+console.log(baz); // returns 0
+```
+
+In the third example, `0` is returned because even though `0` is considered falsy in JavaScript, it is not `null` or `undefined. You may think that we can use the `||` operator here but there is a difference between these two:
+
+```Javascript
+const cannotBeZero = 0 || 5;
+console.log(cannotBeZero); // returns 5const canBeZero = 0 ?? 5;
+
+const canBeZero = 0 ?? 5;
+console.log(canBeZero); // returns 0
+```
+
+#### 6 - Optional chaining (`?.`)
+Do you also hate errors like `TypeError: Cannot read property ‘foo’ of null`. This is a pain in the neck for every JavaSript developer. Optional chaining was introduced just to solve this. Let’s take a look:
+
+```Javascript
+const book = { id:1, title: 'Title', author: null };
+
+// normally, you would do this
+console.log(book.author.age) // throws error
+console.log(book.author && book.author.age); // returns null (no error)
+
+// with optional chaining
+console.log(book.author?.age); // returns undefined
+
+// or deep optional chaining
+console.log(book.author?.address?.city); // returns undefined
+```
+
+You can also use optional chaining with functions like this:
+
+```Javascript
+const person = {
+    firstName: 'Haseeb',
+    lastName: 'Anwar',
+    printName: function () {
+        return `${this.firstName} ${this.lastName}`;
+    },
+};
+
+console.log(person.printName()); // returns 'Haseeb Anwar'
+console.log(persone.doesNotExist?.()); // returns undefine
+```
+
+#### 7 - Boolean Conversion Using the `!! Operator
+
+The `!!` operator can be used to quickly convert the result of an expression into a boolean `true` or `false`. Here’s how:
+
+```Javascript
+const greeting = 'Hello there!';
+console.log(!!greeting) // returns trueconst noGreeting = '';
+
+const noGreeting = '';
+console.log(!!noGreeting); // returns false
+```
+
+#### 8 - String and Integer Conversions
+
+Quickly convert a string to a number using the `+` operator like this:
+
+```Javascript
+const stringNumer = '123';
+
+console.log(+stringNumer); // returns integer 123
+console.log(typeof +stringNumer); // returns 'number'
+```
+
+To quickly convert a number to a string, use the `+` operator followed by an empty string `""`:
+
+```Javascript
+const myString = 25 + '';
+    
+console.log(myString); // returns '25'
+console.log(typeof myString); // returns 'string'
+```
+
+#### 9 - Check Falsy Values in an Array
+You must be familiar with `filter`, `some`, and `every` array methods. But you should also know that you can just the `Boolean` method to test for truthy values:
+
+```Javascript
+const myArray = [null, false, 'Hello', undefined, 0];
+
+// filter falsy values
+const filtered = myArray.filter(Boolean);
+console.log(filtered); // returns ['Hello']
+
+// check if at least one value is truthy
+const anyTruthy = myArray.some(Boolean);
+console.log(anyTruthy); // returns true
+
+// check if all values are truthy
+const allTruthy = myArray.every(Boolean);
+console.log(allTruthy); // returns false
+```
+
+Here’s how it works. As we know that these array methods take a callback function, so we pass `Boolean` as a callback function. Boolean itself takes an argument and returns `true` or `false` based on the truthiness of the argument. So we can say that this:
+
+```Javascript
+myArray.filter(val => Boolean(val));    
+```
+
+Is the same as this:
+
+```Javascript
+myArray.filter(Boolean);
+```
+
+#### 10 - Flattening Arrays of Arrays
+
+There is a method `flat` on the prototype `Array` that lets you make a single array from an array of arrays:
+
+```Javascript
+const myArray = [{ id: 1 }, [{ id: 2 }], [{ id: 3 }]];
+
+const flattedArray = myArray.flat();
+// returns [ { id: 1 }, { id: 2 }, { id: 3 } ]
+```
+
+You can also define a depth level that specifies how deep a nested array structure should be flattened. For instance:
+
+```Javascript
+const arr = [0, 1, 2, [[[3, 4]]]];
+
+console.log(arr.flat(2)); // returns [0, 1, 2, [3,4]]
+```
+
 ## New Features
 
 ### Javascript 2021 New Features
@@ -650,7 +890,7 @@ function test() {
 
 **Author**: *Tirlochan Arora*
 
-**Rewrited**: Renaud Racinet
+**Rewrited**: *Renaud Racinet*
 
 
 #### 1 - New Logical Operators
@@ -671,9 +911,9 @@ console.log(a); // output for variable 'a' would be 2.
 The line a&&= b is similar to the code block given below:
 
 ```Javascript
-if (a) {
-    a = b;
-}
+    if (a) {
+        a = b;
+    }
 ```
 
 This logical operator is saying that if the variable `a` has a truthy value (which it is since it holds a non-zero value), then variable `a` should be assigned the value of the variable `b`. That’s why when we do `console.log(a) , the value of the variable a evaluates to 2 instead of 1.
@@ -790,6 +1030,7 @@ const weakRefFunc = () => {
     });
     console.log(obj.deref().name);
 }
+
 const test = () => {
     new Promise(resolve => {
      setTimeout(() => {
@@ -804,6 +1045,7 @@ const test = () => {
       }, 5000)
     })
 }
+
 test();
 ```
 
