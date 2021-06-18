@@ -945,7 +945,7 @@ This operator checks whether a value is *null* or is *undefined*. Consider the f
 let a;
 let b = 2;
 a ??= 1;
-console.log(a) // output for variable 'a' would be 1.
+console.log(a); // output for variable 'a' would be 1.
 
 // this code block is similar to the code given above.
 // if(a === null || a === undefined) {
@@ -988,7 +988,7 @@ With the introduction of this feature, we can improve the readability of our int
 
 ```Javascript
 let number = 1_000_000_000; // one billion
-console.log(number) // 1000000000 (the number would remain an integer)
+console.log(number); // 1000000000 (the number would remain an integer)
 ```
 
 #### ‘Promise.any()’
@@ -1002,13 +1002,14 @@ const p1 = new Promise(resolve => setTimeout(resolve, 500, 'First'));
 const p2 = new Promise(resolve => setTimeout(resolve, 800, 'Second'));
 const p3 = Promsie.reject(1);
 const promises = [p1, p2, p3];
+
 Promise.any(promises)
     .then(result => {
         console.log(result);
     }) // the result would be 'First' because that's the promise, that is fulfilled first.
     .catch(e => {
         console.log(e);
-    })
+    });
 ```
 
 In case none of the promises gets fulfilled, then we will get an `AggregateError`. To handle the `AggregateError`, we will define a `catch` statement after the `then` statement. If you don’t know what `then` & `catch` blocks are, you can read about them [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
@@ -1029,7 +1030,7 @@ const weakRefFunc = () => {
        name: 'JavaScript'
     });
     console.log(obj.deref().name);
-}
+};
 
 const test = () => {
     new Promise(resolve => {
@@ -1044,7 +1045,7 @@ const test = () => {
         resolve();
       }, 5000)
     })
-}
+};
 
 test();
 ```
@@ -1065,7 +1066,7 @@ A Finalizer is mostly used with `WeakRef` but it can also be used individually. 
 const registerFinalizer = new FinalizationRegistry(data => console.log(data));
 
 const obj = {'name': 'JavaScript'};
-registerFinalizer.register(obj, 'obj is collected now!')
+registerFinalizer.register(obj, 'obj is collected now!');
 ```
 
 Now, the variable `registerFinalizer` is an object which contains the register method which we are going to use.
