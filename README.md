@@ -4,8 +4,10 @@
 
 ### For Beginner
  * [36 Javascript Method you should know](#36-javascript-method-you-should-know)
+ * []()
 ### For Initiate
  * [5 Tips to Write Better Conditionals in JavaScript](#5-tips-to-write-better-conditionals-in-javascript)
+ * [How to Use Async/Await to Write Better JavaScript Code](#How-to-Use-Async/await-to-Write-Better-Javascript-Code)
 ### For advanced
  * [10 Modern JavaScript Tricks Every Developer Should Use](#10-modern-javascript-tricks-every-developer-should-use)
 ### Features
@@ -293,13 +295,254 @@ const getURL = async URL => await fetch(URL);
 ```
 =========
 
+## How to Use Async/Await to Write Better JavaScript Code
+
+**From**: [How to Use Async/Await to Write Better JavaScript Code](https://www.freecodecamp.org/news/how-to-use-async-await-write-better-javascript/)
+**Author**: *Milind Soorya*
+**Rewrited**: *Renaud Racinet*
+
+### What are asynchronus functions?
+
+The term asynchronus refers to a situation where two or more events don't happen at the same time. Or in simple terms, multiple related things can happen without waiting for the previous action to complete.
+
+In JavaScript, **asynchronus functions** are really important because of the **single threaded nature of JavaScript**. With the help of asynchrnous functions, JavaScript's event loop can take care of other things when the function is requesting some other resource.
+
+You'd use aysnchronous code, for example, in API's that fetch a file from the network, when you're accessing a database and returning data from it, when you're accessing a video stream from a web cam, or if you're broadcasting the display to a VR headset.
+
+### How Promises Work in JavaScript
+
+The `Promise` object in JavaScript represents an asynchronous operation (and its resulting value) that will eventually complete (or fail).
+
+A `Promise` can be in one of these states:
+
+* pending: initial state, neither fulfilled nor rejected.
+* fulfilled: meaning that the operation was completed successfully.
+* rejected: meaning that the operation failed.
+
+[<img src="https://www.freecodecamp.org/news/content/images/2021/06/Promise-in-Javascript.jpg">](https://www.freecodecamp.org/news/content/images/2021/06/Promise-in-Javascript.jpg)
+
+The function passed to a new promise is called the executor. It's arguments (`resolve` and `reject`) are called callbacks that JavaScript itself provides. When the executor gets the result, whether it's now or later it doesn’t matter – it should call one of these callbacks.
+
+Here's an exemple of a **Promise**:
+
+```Javascript
+const myPromise = new Promise(function(resolve, reject) => {
+  setTimeout(() => {
+    resolve('foo');
+  }, 300);
+});
+```
+
+And here are examples of a **fulfilled vs a rejected** promise:
+
+```Javascript
+// fulfilled promise
+let promise = new Promise(function(resolve, reject) {
+    setTimeout(()  => resolve(new Error("done!")), 1000);
+});
+
+// resolve runs the first function in .then
+promise.then(
+    result => alert(result), // shows "done!" after 1 second
+    error => alert(error) // doesn't run
+);
+```
+
+```Javascript
+// rejected promise
+let promise =  new  Promise(function(resolve, reject)  { 
+     setTimeout(()  => reject(new Error("Whoops!")), 1000);
+});
+
+// reject runs the second function in .then
+promise.then(
+  result => alert(result), // doesn't run
+  error => alert(error) // shows "Error: Whoops!" after 1 second
+);
+```
+
+### Async/Await Basics in JavaScript
+
+There are two parts to using `async/await` in your code.
+
+First of all, we have the `async` keyword, which you put in front of a function declaration to turn it into an async function.
+
+An async function is a function that knows to expect the possibility that you'll use the `await` keyword to invoke asynchronous code.
+
+> The async keyword is added to functions to tell them to return a promise rather than directly returning the value.
+
+```Javascript
+const loadData = async () => {
+  const url = "https://jsonplaceholder.typicode.com/todos/1";
+  const res = await fetch(url);
+  const data = await res.json();
+  console.log(data);
+};
+
+loadData();
+```
+
+```json
+{
+  "completed" : false,
+  "id"        : 1,
+  "title"     : "delectus aut autem",
+  "userId"    : 1
+}
+```
+
+### How to Use Async/Await with Error Handling
+We can handle errors using a try catch block like this:
+
+```Javascript
+const loadData = async () => {
+  try{
+	  const url = "https://jsonplaceholder.typicode.com/todos/1";
+	  const res = await fetch(url);
+	  const data = await res.json();
+	  console.log(data);
+  } catch(err) {
+    console.log(err)
+  }
+};
+
+loadData();
+```
+
+The above try-catch will only handle errors while fetching data such as the wrong syntax, wrong domain names, network errors, and so on.
+
+When you want to handle an error message from the API response code, you can use `res.ok` (`res` is the varaiable to which response is stored). It will give you a Boolean with the value true if the response code is between 200 and 209.
+
+```Javascript
+const loadData = async () => {
+  try{
+	  const url = "https://jsonplaceholder.typicode.com/todos/qwe1";
+	  const res = await fetch(url);
+	  if(res.ok){ 
+	    const data = await res.json();
+	    console.log(data);
+	  } else {
+	    console.log(res.status); // 404
+	  }
+  } catch(err) {
+    console.log(err)
+  }
+};
+
+loadData();
+
+// OUTPUT
+// 404
+```
+
+### How an Async Function Returns a Promise
+
+This is one of the traits of async functions — their return values are guaranteed to be converted to promises. To handle data returned from an `async` function we can use a `then` keyword to get the data.
+
+```Javascript
+const loadData = async () => {
+  try{
+    const url = "https://jsonplaceholder.typicode.com/todos/1";
+    const res = await fetch(url);
+    const data = await res.json();
+    return data
+  } catch(err) {
+    console.log(err)
+  }
+};
+
+const data = loadData().then(data => console.log(data));
+```
+
+> Pro Tip:
+> 
+> If you want to use an `async-await` to handle the returned data you can use an IIFE, but it is only available in Node 14.8 or higher.
+
+```Javascript
+// use an async IIFE
+(async () => {
+  const data = await loadData();
+  console.log(data);
+})();
+```
+
+`await` only works inside async functions within regular JavaScript code. But you can use it on its own with [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+
+### How to Use Promise.all() in JavaScript
+`Promise.all()`comes in handy when we want to call multiple API's.
+
+Using a traditional `await` method, we have to wait for each request to complete before going on to the next request. This becomes a problem when each request takes some time to complete. This can easily add up and slow things down.
+
+Using `Promise.all()`, we can call each of these API's in parallel. (This is a bit of an oversimplification – for more details checkout this amazing article).
+
+> Please be carefull when using `Promise.all`, though – if one of the await requests fails, it will fail altogether.
+
+```Javascript
+const loadData = async () => {
+  try{
+    const url1 = "https://jsonplaceholder.typicode.com/todos/1";
+    const url2 = "https://jsonplaceholder.typicode.com/todos/2";
+    const url3 = "https://jsonplaceholder.typicode.com/todos/3";
+    const results = await Promise.all([
+      fetch(url1),
+      fetch(url2),
+      fetch(url3)
+    ]);
+    const dataPromises = await results.map(result => result.json());
+    const finalData = Promise.all(dataPromises);
+    return finalData
+  } catch(err) {
+    console.log(err)
+  }
+};
+
+const data = loadData().then(data => console.log(data));
+```
+
+```Javascript
+// Console output
+[{
+  completed: false,
+  id: 1,
+  title: "delectus aut autem",
+  userId: 1
+}, {
+  completed: false,
+  id: 2,
+  title: "quis ut nam facilis et officia qui",
+  userId: 1
+}, {
+  completed: false,
+  id: 3,
+  title: "fugiat veniam minus",
+  userId: 1
+}]
+```
+
+### Conclusion
+
+In most situations we can use `async/await` with a `try catch` block to handle both results and errors.
+
+At the moment, `await` won’t work in top-level code. This means that when we’re outside any `async` function, we’re syntactically unable to use `await`. In this case, it’s regular practice to add `.then/catch` to handle the final result or falling-through error.
+
+> Top level `await` is available from Node.js `v14.8` onwards and in ES modules only. Read more here: [Top-level await is available in Node.js modules | Stefan Judis Web Development](https://www.stefanjudis.com/today-i-learned/top-level-await-is-available-in-node-js-modules/#top-level-%60await%60-is-available-%22unflagged%22-in-node.js-since-%60v14.8%60)
+
+### Resources that helped the author:
+
+* [Promises (javascript.info)](https://javascript.info/promise-basics)
+* [Introducing asynchronous JavaScript - Learn web development | MDN (mzilla.org)](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing)
+* [Promise - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
+### Before We End…
+Do you want to code and learn along with me? You can find the same content here in my [blog](https://milindsoorya.site/). Just open up your favorite code editor and get started.
+
 ## For initiate
 
 ### 5 Tips to Write Better Conditionals in JavaScript
 
-**From**: [5 Tips to Write Better Conditionals in JavaScript](https://scotch.io/tutorials/5-tips-to-write-better-conditionals-in-javascript#toc-5-use-array-every-array-some-for-all-partial-criteria)
+**From**   : [5 Tips to Write Better Conditionals in JavaScript](https://scotch.io/tutorials/5-tips-to-write-better-conditionals-in-javascript#toc-5-use-array-every-array-some-for-all-partial-criteria)
 
-**Author**: *Jecelyn Yeen, Developer advocate for Google Chrome.*
+**Author** : *Jecelyn Yeen, Developer advocate for Google Chrome.*
 
 
 ### 1. Use Array.includes for Multiple Criteria
