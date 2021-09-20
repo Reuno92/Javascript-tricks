@@ -3,18 +3,20 @@
 ##Summary
 
 ### For Beginner
- * [36 Javascript Method you should know](#36-javascript-method-you-should-know)
- * []()
+ * [36 Javascript Method you should know](#36-javascript-method-you-should-known)
+ * [How to Use Async/Await to Write Better JavaScript Code](#how-to-use-asyncawait-to-write-better-javascript-code)
 ### For Initiate
  * [5 Tips to Write Better Conditionals in JavaScript](#5-tips-to-write-better-conditionals-in-javascript)
- * [How to Use Async/Await to Write Better JavaScript Code](#How-to-Use-Async/await-to-Write-Better-Javascript-Code)
+ * [4 JavaScript tips for shorter code](#4-javascript-tips-for-shorter-code)
 ### For advanced
+ * [JavaScript Hacks to Instantly Make Your Code Bug-Free](#javascript-hacks-to-instantly-make-your-code-bug-free)
  * [10 Modern JavaScript Tricks Every Developer Should Use](#10-modern-javascript-tricks-every-developer-should-use)
 ### Features
  * [EcmaScript 2021](#Javascript-2021-New-Features)
 
 ## For beginner
 
+## 36 Javascript Method You Should Known
 **From**: [36 Javascript Method you should know](https://javascript.plainenglish.io/36-javascript-methods-you-should-know-e163edaa8ea5)
 
 **Author**: *John Anderson, Marketing Manager at Freelancers, Studied at University of California, Berkeley*
@@ -326,7 +328,7 @@ The function passed to a new promise is called the executor. It's arguments (`re
 Here's an exemple of a **Promise**:
 
 ```Javascript
-const myPromise = new Promise(function(resolve, reject) => {
+const myPromise = new Promise(function(resolve, reject)  {
   setTimeout(() => {
     resolve('foo');
   }, 300);
@@ -537,6 +539,107 @@ At the moment, `await` won’t work in top-level code. This means that when we�
 Do you want to code and learn along with me? You can find the same content here in my [blog](https://milindsoorya.site/). Just open up your favorite code editor and get started.
 
 ## For initiate
+
+### 4 JavaScript tips for shorter code
+
+**From**        : [4 JavaScript tips for shorter code](https://medium.com/@abhinav_vp/4-javascript-tips-for-shorter-code-a31c300a28a5)
+
+**Author**      : *Abhinav VP*
+
+**Rewritted**   : *Renaud Racinet*
+
+There are plenty of tips which can be followed to make the javascript code shorter as well less complicated. I will share four of such tips which have reduced the effort and development time for me a lot while coding.
+
+#### Short Circuiting
+This can be used when you’ll have to use a simple if condition.
+
+```Javascript
+    if( x == 0 ){
+        foo()
+    }
+```
+
+Short circuiting can be achieved by using && operator. Code after && won’t be executed if the condition before && evaluates to false.
+
+```Javascript
+    x == 0 && foo()
+```
+
+This can be chained to replace multiple if statements
+
+```Javascript
+    x == 0 && y == 0 && foo()
+```
+
+### Check if objects exist using ? operator
+
+This is really helpful if you are dealing with scenarios like API calls or with objects of which you aren’t certain whether it or its keys are initialised.
+
+Consider an object `studentObject` with a key `name`. Directly accessing the key value using ‘studentObject.name’ might throw error . One way to evaluate whether the key exists is using nested if conditions.
+
+```Javascript
+if(studentObject){
+  if(studentObject.name) {
+    console.log('student name exists')
+  }
+}
+```
+
+This can be made shorter using `?` operator. If studentObject do not exist it will evaluate to false.
+
+```Javascript
+if(studentObject?.name){
+    console.log('student name exists')
+}
+```
+
+### Using Nullish coalescing operator (??)
+Ternary operator already makes the code short as compared to if else statement. It’s handy if the block of code to be executed is small.
+
+```Javascript
+const foo = () => {
+  x ? x : 'x do not exist'
+}
+```
+
+In cases where you have to return the operand to the left of `?`, you can use the `??` operator to make the code even shorter.
+
+```Javascript
+const foo = () => {
+  x ?? 'x do not exist'
+}
+```
+
+### Terminating the function instead of if else nesting
+consider the below function which checks the value of ‘x’
+
+```Javascript
+const foo = () => {
+  if (x < 1) {
+    return 'x is less than 1'
+  }else {
+    if (x > 1){
+      return 'x is greater than 1'
+    } else {
+      return 'x is equal to 1'
+    }
+  }
+}
+```
+
+This if else nesting can be made less complicated by removing else conditions, as a return statement will stop code execution and return the function.
+
+```Javascript
+const foo = () => {
+  if( x < 1 ) {
+    return 'less than 1'
+  }
+  if ( x > 1 ) {
+    return 'x is greater than 1'
+  }
+  return 'x is equal to 1'
+}
+```
 
 ### 5 Tips to Write Better Conditionals in JavaScript
 
@@ -889,9 +992,177 @@ function test() {
 
 ## For advanced
 
+### JavaScript Hacks to Instantly Make Your Code Bug-Free
+
+**From**: []()
+
+**Author**: *Somnath Singh*
+
+**Rewritted**: *Renaud Racinet*
+
+### How can bugs occur while using JavaScript?
+
+We know that JavaScript is a dynamically typed language. It means that when we declare a variable, we do not need to specify what type of variable it is, unlike C#, Java, Scala — you know, all those industrial programming languages. This gives us certain flexibility and speed while writing programs.
+
+> This speed, flexibility, and ease of use are what led many to write code in JavaScript!
+
+#### Types are damned!
+
+Just kidding! Of course, there is a cost to this flexibility, some of which may be exposed if you’re using [Typescript](https://stackoverflow.com/questions/12694530/what-is-typescript-and-why-would-i-use-it-in-place-of-javascript), but using the following hacks while writing code can save you a pesky bug down the road.
+
+### Scenario 1
+
+Suppose you have a function that depends on an argument, and the argument is of a particular type like this.
+
+```Javascript
+const addNameToArray = (name, nameArr) => {
+    if (name.length) {
+        nameArr.push(name);
+    }
+    
+    return nameArr;
+}
+```
+
+Simple enough, right? We take a name and a `nameArr and then simply add
+the name to the array if one is present.
+
+We are making some assumptions here, however, that the name will be of a type that has a length property and that our `nameArr` will be, well, an array.
+
+If either one of these conditions is not met, we will fail miserably.
+
+### Hack
+Consider using default parameters in your function’s signature.
+
+```Javascript
+const addNameToArray = (name = '', nameArr = []) => {
+    if (name.length) {
+        nameArr.push(name);
+    }
+    
+    return nameArr;
+}
+```
+
+Much better! Now you can sleep at night, knowing this useless function won’t break in production even if it’s called with a missing argument.
+
+### Scenario 2
+
+Your team had this excellent little function that accepted 3 arguments and did some straightforward logic with it to fetch some data from a third party service.
+
+```Javascript
+const createUser = (name, data, apiKey) => {
+    const user = { name };
+    const formattedName = moment(date).unix();
+    
+    thirdParty.fetch(user, formattedName, apiKey);
+}
+
+createUser("Sam", "17/04/21", "abc123");
+```
+
+But that was the past; now, this little function is nearly unrecognizable and has a whopping 6 arguments getting passed to it.
+
+```Javascript
+const createUser = (name, date, profileId, dataId, dataType, apiKey) => {
+    const user = {
+        name,
+        profileId
+    }
+    
+    const formattedDate = moment(date).unix();
+    
+    thirdParty.fetch(user, formattedDate, dataId, dataType, apiKey);
+}
+
+createUser("Sam", "24/11/21", 1, 123, 1234, "story", "abc123");
+```
+
+Too many parameters can often indicate a violation of the [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single-responsibility_principle). But this is not the only problem. The danger in functions like these is that the order of the arguments matters, and if any of them are incorrect, we risk blowing up our API call.
+
+> More arguments mean more surface area to make mistakes.
+
+It would be foolish to assume that when some developers call this function, the `profileId` will not be in the place of the `dataId`, or something likewise.
+
+This won’t blow up your program as they are both likely numbers or strings, but their incorrect order will give you the wrong data from the API, or worse — just not work.
+
+### Hack
+Use an object as an argument.
+
+```Javascript
+const createUser = ({ name, date, profileId, dataId, dataType, apiKey}) => {
+    const user = { name, profileId };
+    
+    const formattedDate = moment(date).unix();
+    
+    thirdParty.fetch(user, formattedDate, dataId, dataType, apiKey);
+}
+
+createUser({ 
+    name: "",
+    date: "",
+    profileId: 1,
+    dataId: 123,
+    dataType: "story",
+    apiKey: "123abc" 
+});
+```
+
+Using an object, we place a less cognitive load on our fellow developers and make sure that our arguments are explicitly set.
+
+For functions with more than 3 arguments, I feel like using an object is a must.
+
+### Scenario 3
+
+We deal a lot with objects in JavaScript. We end up working with them and their properties often. Digging out valuable info can be a pain and a bit dangerous if you’re not careful.
+
+Look at the code below:
+
+```Javascript
+const hat = user.outfit.hat;
+```
+
+Looks harmless, right? What if our user object doesn’t have an outfit property or that property is **undefined**? Then we will have an issue on our hands.
+
+> Uncaught ReferenceError: Cannot access 'hat' before initialization.
+
+Now, the first step in making sure we don’t get this error is to check whether the next property exists at each level, but in return, we get stuck writing awful code like this.
+
+```Javascript
+const hat = user && user.outfit && user.outfit.hat || "Cowboy"; 
+```
+
+I don’t know about you, but I feel terrible after writing a code like this. Thankfully, Now JS developers can also take advantage of what [Ruby developers have had for years](https://mitrev.net/ruby/2015/11/13/the-operator-in-ruby/)!
+
+### Hack
+
+Make use of [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
+
+```Javascript
+const hat = user?.outfit?.hat || "Cowboy";
+```
+
+![](https://miro.medium.com/max/700/1*FsCJk9hi065_PTFHNAHnfA.gif)
+
+Now, if our traversal fails at any point, our operation will short-circuit and return the value described after `||` operator. In this way, the code is both safer and more readable.
+
+> **Note by rewritter**
+> 
+> It was the best practise in 2019, now in 2021, you can use "Nullish Coalescing Operator" like this :
+> 
+> ```Javascript
+> const user = { outfit: { hat: null }};
+> let hat = user.outfit.hat ?? "Cowboy"
+> console.log(hat);
+>  ```
+> 
+> Copy/paste this bellow code in your web browser's console.
+
+The most common reason for bugs is human mistakes in software design and coding. Once you know the causes for Software Defects, it will be easier for you to take corrective actions to minimize these defects.
+
 ### 10 Modern JavaScript Tricks Every Developer Should Use
 
-**FROM**: [10 Modern JavaScript Tricks Every Developer Should Use](https://betterprogramming.pub/10-modern-javascript-tricks-every-developer-should-use-377857311d79)
+**From**: [10 Modern JavaScript Tricks Every Developer Should Use](https://betterprogramming.pub/10-modern-javascript-tricks-every-developer-should-use-377857311d79)
 
 **Author**: *Haseeb Anwar*
 
